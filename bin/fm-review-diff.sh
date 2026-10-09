@@ -4,8 +4,10 @@
 # Pooled project clones do not keep their local default branch current, so this
 # helper compares remote-backed projects against origin/<default> after fetching
 # the default branch, and local-only projects against the local default branch.
-# When state/<id>.meta records pr= as a GitHub pull-request URL or a bare
-# number for an open PR, the compare side is ALWAYS a freshly fetched
+# When state/<id>.meta records pr= as a GitHub pull-request URL, a Forgejo
+# pull-request URL (addressed /pulls/<n> but served by the instance as the
+# same refs/pull/<n>/head ref), or a bare number for an open PR, the compare
+# side is ALWAYS a freshly fetched
 # refs/pull/<n>/head by default so review stays current after no-mistakes fix
 # rounds push to the PR. A recorded pr_head= is only a fallback when fetch fails
 # (stale recorded SHAs must never win over a reachable remote PR head). If
@@ -95,6 +97,10 @@ pr_number_from_target() {
     '' ) return 1 ;;
     *"/pull/"*)
       n=${target##*/pull/}
+      n=${n%%[!0-9]*}
+      ;;
+    *"/pulls/"*)  # Forgejo addresses pulls as /pulls/<n>.
+      n=${target##*/pulls/}
       n=${n%%[!0-9]*}
       ;;
     [0-9]*)
