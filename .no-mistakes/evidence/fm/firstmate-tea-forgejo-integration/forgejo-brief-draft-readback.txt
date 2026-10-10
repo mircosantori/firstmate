@@ -1,0 +1,13 @@
+## Running the ship brief's draft read-back and fix commands verbatim against draft PR 9 (cwd = project clone; tea's login NOTE goes to stderr and is dropped)
+$ tea api --repo fixture/fixture-repo /repos/{owner}/{repo}/pulls/9 | jq -c '{title,draft}'
+{"title":"WIP: second draft","draft":true}
+$ tea pulls edit 9 --repo fixture/fixture-repo --title 'second draft'
+
+$ tea api --repo fixture/fixture-repo /repos/{owner}/{repo}/pulls/9 | jq -c '{title,draft}'
+{"title":"second draft","draft":false}
+
+## Merge gate after the draft prefix was removed
+$ fm-pr-merge.sh task-wip https://localhost/fixture/fixture-repo/pulls/4
+armed: state/task-wip.check.sh
+verified: https://localhost/fixture/fixture-repo/pulls/4 is open and mergeable, with a successful combined status at head 3e9ce39a60ca03493e31620b9f74fbc0267ea1ed
+[exit=0]

@@ -1,0 +1,19 @@
+## Adversarial: two tea logins whose hosts both resolve to bare hostname 'localhost'
+$ tea login list --output json | jq -c '.[]|{name,url}'
+{"name":"fm-fixture","url":"http://localhost:3981"}
+{"name":"fm-fixture-other","url":"https://localhost:8443"}
+$ fm-pr-merge.sh task-amb https://localhost/fixture/fixture-repo/pulls/1
+error: merging a Forgejo pull request at localhost requires exactly one 'tea login' registered for that host (see 'tea login list')
+[exit=1]
+$ fm-pr-check.sh task-amb https://localhost/fixture/fixture-repo/pulls/8
+error: watching a Forgejo pull request at localhost requires exactly one 'tea login' registered for that host (see 'tea login list')
+[exit=1]
+$ fm-pr-poll.sh --validated forgejo https://localhost/fixture/fixture-repo/pulls/7 localhost fixture/fixture-repo 7   (PR 7 IS merged; ambiguous login must give silence, not a guess)
+[exit=0]
+$ grep -c pr= state/task-amb.meta
+0
+
+## Control: same poll with the single unambiguous login
+$ fm-pr-poll.sh --validated forgejo https://localhost/fixture/fixture-repo/pulls/7 localhost fixture/fixture-repo 7
+merged
+[exit=0]

@@ -1,0 +1,25 @@
+## Squash-merge PR 5 with one injected transient read-back failure after the POST
+$ PATH=faultbin:$PATH fm-pr-merge.sh task-missing https://localhost/fixture/fixture-repo/pulls/5 -- --squash
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+armed: state/task-missing.check.sh
+verified: https://localhost/fixture/fixture-repo/pulls/5 is open and mergeable, with a successful combined status at head 025666373235f0991440d00d11a112e37022f19c
+[exit=0]
+
+$ cat fault.log
+injected transient read failure: api --login fm-fixture --repo fixture/fixture-repo /repos/{owner}/{repo}/pulls/5
+
+$ cat state/task-missing.merge-authority
+fm-merge-authority-v1
+forgejo
+localhost
+fixture/fixture-repo
+5
+attended
+
+$ tea api .../pulls/5 | jq '{state,merged,merge_commit_sha}'
+{"state":"closed","merged":true,"merge_commit_sha":"f8f024e2d5a221cc5d0de1c20c220f6087ce2fb4"}
+$ git log origin/main --oneline -3
+f8f024e 37e8811 Missing PR (#5)
+37e8811 3a3e925 7d76288 Merge pull request 'Green PR' (#1) from green into main
+3a3e925  Initial commit

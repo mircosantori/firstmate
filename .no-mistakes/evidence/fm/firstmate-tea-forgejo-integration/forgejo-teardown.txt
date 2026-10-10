@@ -1,26 +1,35 @@
-Setup: PR 8 squash-merged on Forgejo, its branch deleted on the forge, main moved on (s1.txt changed again) so the content fallback cannot match; worktree HEAD is on no remote branch.
-=== merged Forgejo PR (task-s1)
-$ fm-teardown.sh task-s1 --legacy-record
-WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
-A new version of treehouse is available: v2.3.0 → v3.1.2
+## Forgejo teardown proof. PR 7 squash-merged by fm-pr-merge.sh, head branch deleted on the server, main later reworded g.txt
+$ tea api .../pulls/7
+{"number":7,"state":"closed","merged":true,"head":"98a14682a6db332ec8959ef4a1790996ed736e0f"}
+$ git -C <task-t7 worktree> rev-parse HEAD; branch -r --contains HEAD  (empty = on no remote)
+98a14682a6db332ec8959ef4a1790996ed736e0f
+$ git diff origin/main HEAD -- g.txt  (content check inconclusive)
+diff --git a/g.txt b/g.txt
+index fc06f1f..353f28c 100644
+--- a/g.txt
++++ b/g.txt
+@@ -1 +1 @@
+-reworded
++hi t7
+$ fm-teardown.sh task-t7
 
-worktree /tmp/fm-lab.JBbGOY/wt-task-s1 is not managed by treehouse
-error: treehouse return failed for worktree /tmp/fm-lab.JBbGOY/wt-task-s1; teardown aborted
-[exit 1]
+🌳 Worktree returned to pool.
+fixture-repo: synced 31536c7..608c083
+teardown task-t7 complete (window fmlab:fm-task-t7, worktree /tmp/fm-lab.5M0oyl/th/.treehouse/fixture-repo-4d1a41/1/fixture-repo)
+Backlog: task-t7 just finished (this home keeps no markdown backlog at /tmp/fm-lab.5M0oyl/data/backlog.md). Update /tmp/fm-lab.5M0oyl/data/backlog.md - move task-t7 to Done, keep Done to the 10 most recent, then re-scan Queued and dispatch only work whose blockers are gone and date is due.
+[exit=0]
+$ ls state/task-t7.meta
+ls: cannot access 'state/task-t7.meta': No such file or directory
 
-tea calls made by teardown:
-tea login list --output json
-tea api --login fm-fixture --repo fixture/fixture-repo /repos/{owner}/{repo}/pulls/8
-
-=== negative control: open Forgejo PR 7 with a local-only commit (task-c1)
-$ fm-teardown.sh task-c1 --legacy-record
-WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
-REFUSED: worktree /tmp/fm-lab.JBbGOY/wt-task-c1 has work not on any remote and not landed.
+## Adversarial: PR 8 still open (merged=false), head branch deleted on the server, task head on no remote
+$ tea api .../pulls/8
+{"number":8,"state":"closed","merged":false,"head":"6c93cdeb03d0e922f527a59b2781cc364289d739"}
+$ git -C <task-t8 worktree> branch -r --contains HEAD
+$ fm-teardown.sh task-t8
+REFUSED: worktree /tmp/fm-lab.5M0oyl/th/.treehouse/fixture-repo-4d1a41/2/fixture-repo has work not on any remote and not landed.
 unpushed commits:
-aae63e9 local only
+6c93cde add h.txt
 Push the branch, land its PR, or get the captain's explicit OK to discard, then --force.
-[exit 1]
-
-tea calls made by teardown:
-tea login list --output json
-tea api --login fm-fixture --repo fixture/fixture-repo /repos/{owner}/{repo}/pulls/7
+[exit=1]
+$ ls state/task-t8.meta
+state/task-t8.meta

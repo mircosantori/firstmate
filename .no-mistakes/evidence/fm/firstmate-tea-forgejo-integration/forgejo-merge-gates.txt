@@ -1,0 +1,44 @@
+# Forgejo 11.0.16 disposable instance, tea Version: 0.14.0	golang: 1.26.7	built with: nixpkgs	go-sdk: 0.23.2
+## Arm + poll open PR 1
+$ cat state/task-green.pr-poll
+forgejo
+https://localhost/fixture/fixture-repo/pulls/1
+localhost
+fixture/fixture-repo
+1
+[exit=0]
+
+$ state/task-green.check.sh
+/run/current-system/sw/bin/bash: line 2: state/task-green.check.sh: Permission denied
+[exit=126]
+
+## Merge gate refusals
+$ /home/firstmate/.no-mistakes/worktrees/c3dbfad094cc/01M4JAYNMFEG2CR55CR7FBJZJB/bin/fm-pr-merge.sh task-red https://localhost/fixture/fixture-repo/pulls/2
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+armed: state/task-red.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/2
+  - the combined commit status is "failure", not success
+[exit=1]
+
+$ /home/firstmate/.no-mistakes/worktrees/c3dbfad094cc/01M4JAYNMFEG2CR55CR7FBJZJB/bin/fm-pr-merge.sh task-nostatus https://localhost/fixture/fixture-repo/pulls/3
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+armed: state/task-nostatus.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/3
+  - the combined commit status is "none", not success
+[exit=1]
+
+$ /home/firstmate/.no-mistakes/worktrees/c3dbfad094cc/01M4JAYNMFEG2CR55CR7FBJZJB/bin/fm-pr-merge.sh task-wip https://localhost/fixture/fixture-repo/pulls/4
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+armed: state/task-wip.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/4
+  - mergeable is "false", not true
+  - the pull request is a draft
+[exit=1]
+
+$ /home/firstmate/.no-mistakes/worktrees/c3dbfad094cc/01M4JAYNMFEG2CR55CR7FBJZJB/bin/fm-pr-merge.sh task-paged https://localhost/fixture/fixture-repo/pulls/6
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+armed: state/task-paged.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/6
+  - the combined commit status is "failure", not success
+[exit=1]
+

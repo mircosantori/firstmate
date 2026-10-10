@@ -1,0 +1,9 @@
+## fm_pr_forgejo_read_record (the bounded reader fm-crew-state.sh and fm-teardown.sh call) against live PRs
+$ fm_pr_forgejo_read_record localhost fixture/fixture-repo 7
+state=closed merged=true head=98a14682a6db332ec8959ef4a1790996ed736e0f
+$ fm_pr_forgejo_read_record localhost fixture/fixture-repo 2
+state=open merged=false head=9c39248c86ba95d2007166a866a6d0520e3fd12c
+$ fm_pr_forgejo_read_record localhost fixture/fixture-repo 9
+state=open merged=false head=805c416cf4a446747e11408e9311a7d1409cb6f8
+$ fm_pr_forgejo_read_record localhost fixture/fixture-repo 999
+[read refused: rc=1]

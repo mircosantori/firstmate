@@ -1,0 +1,37 @@
+## Registry binding forge=forgejo
+$ cat data/projects.md
+# Projects
+- fixture-repo [no-mistakes +yolo forge=forgejo] - Forgejo fixture (added 2026-10-10)
+- gh-repo [direct-PR] - GitHub repo (added 2026-10-10)
+- bad-repo [no-mistakes forge=gitea] - unknown forge value (added 2026-10-10)
+$ fm-project-mode.sh fixture-repo
+no-mistakes on
+[exit=0]
+$ fm-project-mode.sh --forge fixture-repo
+forgejo
+[exit=0]
+$ fm-project-mode.sh gh-repo
+direct-PR off
+[exit=0]
+$ fm-project-mode.sh --forge gh-repo
+none
+[exit=0]
+$ fm-project-mode.sh bad-repo
+refused: unknown forge "gitea" registered for bad-repo in /tmp/fm-lab.5M0oyl/data/projects.md; the accepted values are forge=gerrit and forge=forgejo, or no forge token at all for a forge whose pull requests no-mistakes already drives; correct the registry entry
+[exit=3]
+$ fm-project-mode.sh --forge bad-repo
+refused: unknown forge "gitea" registered for bad-repo in /tmp/fm-lab.5M0oyl/data/projects.md; the accepted values are forge=gerrit and forge=forgejo, or no forge token at all for a forge whose pull requests no-mistakes already drives; correct the registry entry
+[exit=3]
+## Ship brief for a Forgejo project
+$ fm-brief.sh task-b1 fixture-repo --mode no-mistakes --forge forgejo
+scaffolded: /tmp/fm-lab.5M0oyl/data/task-b1/brief.md (ship, mode=no-mistakes forge=forgejo; replace {TASK} and {FIRSTMATE_SPEC})
+[exit=0]
+$ fm-brief.sh task-b2 fixture-repo --mode direct-PR --forge forgejo
+scaffolded: /tmp/fm-lab.5M0oyl/data/task-b2/brief.md (ship, mode=direct-PR forge=forgejo; replace {TASK} and {FIRSTMATE_SPEC})
+[exit=0]
+$ fm-brief.sh task-b3 fixture-repo --mode local-only --forge forgejo   (adversarial)
+error: fm-brief.sh --forge: forge=forgejo cannot ship mode=local-only - that mode publishes nothing, so a forge has no meaning there, and its landing would fast-forward local main with content the review server has never seen; ship no-mistakes or direct-PR, which publish through the forge
+[exit=1]
+$ fm-brief.sh task-b4 fixture-repo --mode no-mistakes --forge forgejo --shape squash   (adversarial)
+error: --shape applies only with --forge gerrit, where the worker publishes the change itself
+[exit=1]
