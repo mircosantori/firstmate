@@ -1,0 +1,30 @@
+$ cat $FM_HOME/data/projects.md
+# Projects
+- fixture-repo [direct-PR forge=forgejo] - throwaway Forgejo fixture (added 2026-10-10)
+- nm-repo [no-mistakes +yolo forge=forgejo] - forgejo with yolo (added 2026-10-10)
+- bad-repo [direct-PR forge=forgejoo] - misspelled forge value (added 2026-10-10)
+- local-repo [local-only forge=forgejo] - local-only cannot have a forge (added 2026-10-10)
+$ bin/fm-project-mode.sh fixture-repo
+direct-PR off
+exit=0
+$ bin/fm-project-mode.sh --forge fixture-repo
+forgejo
+exit=0
+$ bin/fm-project-mode.sh nm-repo
+no-mistakes on
+exit=0
+$ bin/fm-project-mode.sh --forge nm-repo
+forgejo
+exit=0
+$ bin/fm-project-mode.sh bad-repo
+refused: unknown forge "forgejoo" registered for bad-repo in /tmp/fm-lab.te6qSH/data/projects.md; the accepted values are forge=gerrit and forge=forgejo, or no forge token at all for a forge whose pull requests no-mistakes already drives; correct the registry entry
+exit=3
+$ bin/fm-project-mode.sh --forge bad-repo
+refused: unknown forge "forgejoo" registered for bad-repo in /tmp/fm-lab.te6qSH/data/projects.md; the accepted values are forge=gerrit and forge=forgejo, or no forge token at all for a forge whose pull requests no-mistakes already drives; correct the registry entry
+exit=3
+$ bin/fm-project-mode.sh local-repo
+refused: local-repo is registered local-only with forge=forgejo in /tmp/fm-lab.te6qSH/data/projects.md; local-only publishes nothing, so a forge has no meaning there, and its landing would fast-forward local main with content the review server has never seen; register no-mistakes or direct-PR to publish through the forge, or drop the forge token to keep the project local
+exit=3
+$ bin/fm-project-mode.sh --forge local-repo
+refused: local-repo is registered local-only with forge=forgejo in /tmp/fm-lab.te6qSH/data/projects.md; local-only publishes nothing, so a forge has no meaning there, and its landing would fast-forward local main with content the review server has never seen; register no-mistakes or direct-PR to publish through the forge, or drop the forge token to keep the project local
+exit=3

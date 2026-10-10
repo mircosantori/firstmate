@@ -1,0 +1,10 @@
+# PR 4: page 1 of combined status = success (50 contexts), page 2 = failure (1 failing context)
+b4 page 1: {"state":"success","n":50}
+b4 page 2: {"state":"failure","n":6}
+b4 page 3: {"state":"","n":0}
+$ bin/fm-pr-merge.sh task-f4 https://localhost/fixture/fixture-repo/pulls/4
+armed: state/task-f4.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/4
+  - the combined commit status is "failure", not success
+exit=1
+{"number":4,"state":"open","merged":false,"draft":false,"merge_commit_sha":null}

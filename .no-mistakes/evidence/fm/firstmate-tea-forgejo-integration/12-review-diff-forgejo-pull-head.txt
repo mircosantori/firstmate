@@ -1,0 +1,19 @@
+# task-r2: local worktree holds only a stale local commit (stale.txt); PR 2's head on Forgejo has b2.txt plus a later fix-round push (e604652)
+$ grep pr= $FM_HOME/state/task-r2.meta
+pr=https://localhost/fixture/fixture-repo/pulls/2
+$ git ls-remote origin refs/pull/2/head
+e6046528925bcdd9c5d991b26d49ddd0aadcd93f	refs/pull/2/head
+$ bin/fm-review-diff.sh task-r2
+diff base: origin/main
+ b2.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/b2.txt b/b2.txt
+new file mode 100644
+index 0000000..d7c69be
+--- /dev/null
++++ b/b2.txt
+@@ -0,0 +1,2 @@
++b2
++pushed-after-review-fix
+exit=0

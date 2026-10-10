@@ -1,0 +1,23 @@
+# tea removed from PATH (all other tools still present)
+$ PATH=<no tea> bin/fm-pr-check.sh task-n1 https://localhost/fixture/fixture-repo/pulls/2
+error: watching a Forgejo pull request requires tea and jq on PATH
+exit=1
+$ PATH=<no tea> bash $FM_HOME/state/task-f1.check.sh   # PR 1 is merged, but tea cannot be run
+exit=0 (no output: no wake, never a false merge)
+$ PATH=<no tea> bin/fm-pr-merge.sh task-n1 https://localhost/fixture/fixture-repo/pulls/2
+error: merging a Forgejo pull request requires tea on PATH
+exit=1
+
+# a second tea login for the same host added to the isolated tea config (tea login add refuses a duplicate URL itself)
+$ tea login list -o json | jq -c "map({name,url})"
+[{"name":"fm-fixture","url":"http://localhost:3991"},{"name":"fm-fixture-dup","url":"http://localhost:3991"}]
+$ bin/fm-pr-check.sh task-n2 https://localhost/fixture/fixture-repo/pulls/2
+error: watching a Forgejo pull request at localhost requires exactly one 'tea login' registered for that host (see 'tea login list')
+exit=1
+$ bin/fm-pr-merge.sh task-n1 https://localhost/fixture/fixture-repo/pulls/2
+error: merging a Forgejo pull request at localhost requires exactly one 'tea login' registered for that host (see 'tea login list')
+exit=1
+$ bash $FM_HOME/state/task-f1.check.sh   # merged PR, ambiguous login
+exit=0 (no output = refused to guess)
+# isolated tea config restored
+["fm-fixture"]

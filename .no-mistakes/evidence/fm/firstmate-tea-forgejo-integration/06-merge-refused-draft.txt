@@ -1,0 +1,14 @@
+# PR 5: draft (WIP), combined status success
+$ bin/fm-pr-merge.sh task-f5 https://localhost/fixture/fixture-repo/pulls/5
+armed: state/task-f5.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/5
+  - mergeable is "false", not true
+  - the pull request is a draft
+exit=1
+{"number":5,"state":"open","merged":false,"draft":true,"merge_commit_sha":null}
+# PR 5 after the WIP prefix was removed (same head, same success status)
+$ bin/fm-pr-merge.sh task-f5 https://localhost/fixture/fixture-repo/pulls/5
+armed: state/task-f5.check.sh
+verified: https://localhost/fixture/fixture-repo/pulls/5 is open and mergeable, with a successful combined status at head 71a60f062b0e3cee8c74e816964f1d4b1a10e0ff
+exit=0
+{"state":"closed","merged":true,"draft":false}

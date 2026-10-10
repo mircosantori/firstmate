@@ -1,0 +1,9 @@
+# following the generated brief's draft read-back on the WIP PR 5 (cwd: a worker clone of the fixture repo)
+$ tea api --repo fixture/fixture-repo /repos/{owner}/{repo}/pulls/5 | jq "{title,draft}"
+NOTE: no gitea login detected, falling back to login 'fm-fixture' in non-interactive mode.
+{"title":"WIP: draft b5","draft":true}
+$ tea pulls edit 5 --repo fixture/fixture-repo --title 'draft b5'
+exit=0
+$ tea api --repo fixture/fixture-repo /repos/{owner}/{repo}/pulls/5 | jq "{title,draft}"
+NOTE: no gitea login detected, falling back to login 'fm-fixture' in non-interactive mode.
+{"title":"draft b5","draft":false}

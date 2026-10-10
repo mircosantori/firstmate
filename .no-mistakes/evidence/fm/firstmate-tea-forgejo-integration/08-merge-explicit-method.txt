@@ -1,0 +1,8 @@
+# PR 3: explicit --merge overrides the squash default
+$ bin/fm-pr-merge.sh task-f3 https://localhost/fixture/fixture-repo/pulls/3 --merge
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+armed: state/task-f3.check.sh
+verified: https://localhost/fixture/fixture-repo/pulls/3 is open and mergeable, with a successful combined status at head 2dd26932310f265d7fe83c4bb1891a1953f0dcc4
+exit=0
+{"number":3,"state":"closed","merged":true,"merge_commit_sha":"35b90d684f3ebf02bf6124c70617d5b290f67677"}
+merge commit 35b90d684f3ebf02bf6124c70617d5b290f67677 parents: 2 ; message: Merge pull request 'PR b3' (#3) from b3 into main

@@ -1,0 +1,5 @@
+# cwd: lab FM_HOME (/tmp/fm-lab.te6qSH); scripts from the run worktree
+$ bash $FM_HOME/state/task-f1.check.sh   # PR 1 is open
+exit=0 (no output = still open)
+$ tea api pulls/1 (cross-check)
+{"state":"open","merged":false,"draft":false}

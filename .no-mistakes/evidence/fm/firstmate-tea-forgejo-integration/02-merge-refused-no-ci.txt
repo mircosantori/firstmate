@@ -1,0 +1,6 @@
+# PR 1 open, no commit status posted yet
+$ bin/fm-pr-merge.sh task-f1 https://localhost/fixture/fixture-repo/pulls/1
+armed: state/task-f1.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/1
+  - the combined commit status is "none", not success
+exit=1

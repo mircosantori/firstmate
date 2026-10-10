@@ -1,0 +1,18 @@
+# repository default_merge_style: squash
+# PR 1: open, mergeable, combined status success; no merge method named
+$ bin/fm-pr-merge.sh task-f1 https://localhost/fixture/fixture-repo/pulls/1
+armed: state/task-f1.check.sh
+verified: https://localhost/fixture/fixture-repo/pulls/1 is open and mergeable, with a successful combined status at head db9a8c6a5804f70cefa7c841c48f2230ed485b2c
+exit=0
+{"number":1,"state":"closed","merged":true,"merge_commit_sha":"60e46fd0da253365e18c19bdf957c437bde1dc3b"}
+merge commit 60e46fd0da253365e18c19bdf957c437bde1dc3b parents: 1 ; message: PR b1 (#1)
+$ bash $FM_HOME/state/task-f1.check.sh   # watch after merge
+merged
+exit=0
+$ ls $FM_HOME/state | grep task-f1
+task-f1.check.sh
+task-f1.merge-authority
+task-f1.meta
+task-f1.pr-poll
+task-f1.pr-poll-merge-notified
+task-f1.pr-poll-registration

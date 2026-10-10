@@ -1,0 +1,7 @@
+# PR 2: combined status failure
+$ bin/fm-pr-merge.sh task-f2 https://localhost/fixture/fixture-repo/pulls/2
+armed: state/task-f2.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/2
+  - the combined commit status is "failure", not success
+exit=1
+{"number":2,"state":"open","merged":false,"draft":false,"merge_commit_sha":null}
