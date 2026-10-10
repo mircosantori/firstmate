@@ -1,0 +1,34 @@
+$ fm-pr-check.sh task-g1 https://localhost/fixture/fixture-repo/pulls/1
+armed: state/task-g1.check.sh
+[exit 0]
+
+forgejo
+https://localhost/fixture/fixture-repo/pulls/1
+localhost
+fixture/fixture-repo
+1
+
+$ state/task-g1.check.sh
+[exit 0]
+
+$ fm-pr-merge.sh task-g1 https://localhost/fixture/fixture-repo/pulls/1
+armed: state/task-g1.check.sh
+verified: https://localhost/fixture/fixture-repo/pulls/1 is open and mergeable, with a successful combined status at head edf6fbdbaca0a001c5d201127840e23320a7e55e
+[exit 0]
+
+$ state/task-g1.check.sh
+merged
+[exit 0]
+
+--- task-g1.meta
+window=fm-task-g1
+worktree=/tmp/fm-lab.JBbGOY/wt-task-g1
+project=/tmp/fm-fjlab.q5pl1T/repo
+kind=ship
+mode=no-mistakes
+pr=https://localhost/fixture/fixture-repo/pulls/1
+--- authority records
+task-g1.merge-authority
+task-g1.pr-poll-merge-notified
+--- forge read-back
+{"number":1,"state":"closed","merged":true,"merged_by":"fixture","head":"edf6fbdbaca0a001c5d201127840e23320a7e55e"}

@@ -1,0 +1,14 @@
+$ fm-pr-merge.sh task-s1 https://localhost/fixture/fixture-repo/pulls/8 -- --squash
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+armed: state/task-s1.check.sh
+verified: https://localhost/fixture/fixture-repo/pulls/8 is open and mergeable, with a successful combined status at head 8616d7e587bb31f5bf34e35a659d06911114e726
+[exit 0]
+
+{"number":8,"state":"closed","merged":true,"merge_commit_sha":"550ebf7955a7758a6b1e97405f22f7d51ed92952"}
+7c5cb43 Merge pull request 'retryall change' (#6) from retryall into main
+bd7e561 Merge pull request 'retry2 change' (#5) from retry2 into main
+13e7897 add retryall
+origin/main after squash:
+550ebf7 squash change (#8)
+7c5cb43 Merge pull request 'retryall change' (#6) from retryall into main
+worktree HEAD 8616d7e reachable from origin/main? no

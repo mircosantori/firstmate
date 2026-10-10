@@ -1,0 +1,37 @@
+(default tea config: the real login 'forgejo-main' on git.forgejo.internal; only reads)
+$ fm-pr-check.sh task-rm1 https://git.forgejo.internal/Homelab/docs/pulls/5
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+armed: state/task-rm1.check.sh
+[exit 0]
+
+forgejo
+https://git.forgejo.internal/Homelab/docs/pulls/5
+git.forgejo.internal
+Homelab/docs
+5
+$ state/task-rm1.check.sh
+merged
+[exit 0]
+
+$ fm-pr-check.sh task-ro1 https://git.forgejo.internal/Vergilius/vergilius-infra/pulls/5
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+armed: state/task-ro1.check.sh
+[exit 0]
+
+$ state/task-ro1.check.sh
+[exit 0]
+
+=== Adversarial: host with no matching tea login
+$ fm-pr-merge.sh task-ro1 https://forgejo.nowhere.example/Vergilius/vergilius-infra/pulls/5
+error: merging a Forgejo pull request at forgejo.nowhere.example requires exactly one 'tea login' registered for that host (see 'tea login list')
+[exit 1]
+
+=== Adversarial: refuse to merge a real, already-merged PR (read-only refusal)
+$ fm-pr-merge.sh task-rm1 https://git.forgejo.internal/Homelab/docs/pulls/5
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+armed: state/task-rm1.check.sh
+error: refusing to merge https://git.forgejo.internal/Homelab/docs/pulls/5
+  - state is "closed", not open
+  - the combined commit status is "none", not success
+[exit 1]
+

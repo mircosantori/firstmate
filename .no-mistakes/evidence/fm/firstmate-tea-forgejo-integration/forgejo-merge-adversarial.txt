@@ -1,0 +1,54 @@
+=== Adversarial: second merge of already-merged PR 1
+$ fm-pr-merge.sh task-g1 https://localhost/fixture/fixture-repo/pulls/1
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+armed: state/task-g1.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/1
+  - state is "closed", not open
+[exit 1]
+
+=== Review fix: first 2 post-merge confirmation reads fail (transient), PR 5
+$ fm-pr-merge.sh task-a1 https://localhost/fixture/fixture-repo/pulls/5
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+armed: state/task-a1.check.sh
+verified: https://localhost/fixture/fixture-repo/pulls/5 is open and mergeable, with a successful combined status at head 80167e4d60412c7095554b2b424ed17d2fd5a382
+[exit 0]
+
+
+real	0m6.083s
+user	0m1.728s
+sys	0m2.094s
+  [shim] injected read failure #1
+  [shim] injected read failure #2
+forge: {"number":5,"state":"closed","merged":true,"head":"80167e4d60412c7095554b2b424ed17d2fd5a382"}
+authority:
+fm-merge-authority-v1
+forgejo
+localhost
+fixture/fixture-repo
+5
+attended
+
+=== Bound: every confirmation read fails, PR 6
+$ fm-pr-merge.sh task-b1 https://localhost/fixture/fixture-repo/pulls/6
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+armed: state/task-b1.check.sh
+verified: https://localhost/fixture/fixture-repo/pulls/6 is open and mergeable, with a successful combined status at head 13e78979c2bf0fd8618caa73c27e65ba097177ac
+error: Forgejo did not confirm https://localhost/fixture/fixture-repo/pulls/6 as merged
+[exit 1]
+
+injected failures: 5
+forge: {"number":6,"state":"closed","merged":true,"head":"13e78979c2bf0fd8618caa73c27e65ba097177ac"}
+ls: cannot access '/tmp/fm-lab.JBbGOY/state/task-b1.merge-authority': No such file or directory
+
+=== Adversarial: head moves between verify and merge, PR 7
+$ fm-pr-merge.sh task-c1 https://localhost/fixture/fixture-repo/pulls/7
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+armed: state/task-c1.check.sh
+verified: https://localhost/fixture/fixture-repo/pulls/7 is open and mergeable, with a successful combined status at head 90668e5dc653f53ab12467b551d9e0167113a5da
+error: > {"message":"head out of date","url":"http://localhost:3981/api/swagger"}
+error: Forgejo did not confirm https://localhost/fixture/fixture-repo/pulls/7 as merged
+[exit 1]
+
+  [shim] pushed a new commit to race before forwarding merge
+forge: {"number":7,"state":"open","merged":false,"head":"d4940141a5c26fbbce7b060a8f07c2b626cb7906"}
+ls: cannot access '/tmp/fm-lab.JBbGOY/state/task-c1.merge-authority': No such file or directory

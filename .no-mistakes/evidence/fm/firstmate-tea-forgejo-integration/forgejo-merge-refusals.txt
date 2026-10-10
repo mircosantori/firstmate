@@ -1,0 +1,35 @@
+$ fm-pr-merge.sh task-r1 https://localhost/fixture/fixture-repo/pulls/2
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  5 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  watcher supervision needs Stop-owned automatic recovery; inspect the hook registration and startup status before ending the turn.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+armed: state/task-r1.check.sh
+fm-captain-hold: compatible tasks-axi is required
+error: could not determine whether task task-r1 is still held for the captain; refusing to merge
+[exit 1]
+
+$ fm-pr-merge.sh task-d1 https://localhost/fixture/fixture-repo/pulls/3
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+armed: state/task-d1.check.sh
+fm-captain-hold: compatible tasks-axi is required
+error: could not determine whether task task-d1 is still held for the captain; refusing to merge
+[exit 1]
+
+$ fm-pr-merge.sh task-n1 https://localhost/fixture/fixture-repo/pulls/4
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+armed: state/task-n1.check.sh
+fm-captain-hold: compatible tasks-axi is required
+error: could not determine whether task task-n1 is still held for the captain; refusing to merge
+[exit 1]
+
+$ fm-pr-merge.sh task-g1 https://localhost/fixture/fixture-repo/pulls/1 --allow-red ci/test
+error: --allow-red does not apply to Forgejo, where a merge already requires the head's combined commit status to have succeeded
+[exit 2]
+
+$ fm-pr-merge.sh task-g1 https://localhost/fixture/fixture-repo/pulls/1 --allow-missing ci/test
+error: --allow-missing does not apply to Forgejo, where a merge already requires the head's combined commit status to have succeeded
+[exit 2]
+

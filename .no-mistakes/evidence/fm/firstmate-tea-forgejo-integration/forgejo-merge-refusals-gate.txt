@@ -1,0 +1,19 @@
+$ fm-pr-merge.sh task-r1 https://localhost/fixture/fixture-repo/pulls/2
+armed: state/task-r1.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/2
+  - the combined commit status is "failure", not success
+[exit 1]
+
+$ fm-pr-merge.sh task-d1 https://localhost/fixture/fixture-repo/pulls/3
+armed: state/task-d1.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/3
+  - mergeable is "false", not true
+  - the pull request is a draft
+[exit 1]
+
+$ fm-pr-merge.sh task-n1 https://localhost/fixture/fixture-repo/pulls/4
+armed: state/task-n1.check.sh
+error: refusing to merge https://localhost/fixture/fixture-repo/pulls/4
+  - the combined commit status is "none", not success
+[exit 1]
+

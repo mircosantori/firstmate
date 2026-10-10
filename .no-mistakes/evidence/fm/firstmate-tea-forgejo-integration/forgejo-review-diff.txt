@@ -1,0 +1,18 @@
+local worktree HEAD: 90668e5dc653f53ab12467b551d9e0167113a5da  (stale; forge head moved to d4940141 during the race scenario)
+pr=https://localhost/fixture/fixture-repo/pulls/7
+$ fm-review-diff.sh task-c1
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+diff base: origin/main
+ race.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/race.txt b/race.txt
+new file mode 100644
+index 0000000..6e650a9
+--- /dev/null
++++ b/race.txt
+@@ -0,0 +1,2 @@
++race
++moved
+[exit 0]
+

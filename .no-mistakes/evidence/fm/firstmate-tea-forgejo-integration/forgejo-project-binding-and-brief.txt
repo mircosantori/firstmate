@@ -1,0 +1,50 @@
+# Projects
+- fjproj [direct-PR forge=forgejo] - forgejo project (added 2026-10-10)
+- fjnm [no-mistakes forge=forgejo] - forgejo no-mistakes project (added 2026-10-10)
+- badforge [direct-PR forge=forgjo] - misspelled forge value (added 2026-10-10)
+
+$ fm-project-mode.sh --forge fjproj
+forgejo
+[exit 0]
+
+$ fm-project-mode.sh fjproj
+direct-PR off
+[exit 0]
+
+$ fm-project-mode.sh --forge fjnm
+forgejo
+[exit 0]
+
+$ fm-project-mode.sh fjnm
+no-mistakes off
+[exit 0]
+
+$ fm-project-mode.sh --forge badforge
+refused: unknown forge "forgjo" registered for badforge in /tmp/fm-lab.JBbGOY/data/projects.md; the accepted values are forge=gerrit and forge=forgejo, or no forge token at all for a forge whose pull requests no-mistakes already drives; correct the registry entry
+[exit 3]
+
+$ fm-project-mode.sh badforge
+refused: unknown forge "forgjo" registered for badforge in /tmp/fm-lab.JBbGOY/data/projects.md; the accepted values are forge=gerrit and forge=forgejo, or no forge token at all for a forge whose pull requests no-mistakes already drives; correct the registry entry
+[exit 3]
+
+$ fm-brief.sh brief-fj1 fjproj --mode direct-PR --forge forgejo
+scaffolded: /tmp/fm-lab.JBbGOY/data/brief-fj1/brief.md (ship, mode=direct-PR forge=forgejo; replace {TASK} and {FIRSTMATE_SPEC})
+[exit 0]
+
+--- rendered brief: forge-relevant lines
+29:3. Use tea for Forgejo operations and chrome-devtools-axi for browser operations.
+91:Delivery contract: mode=direct-PR forge=forgejo
+95:When it is implemented and committed, push your branch and open a PR with `tea` that is ready for review, not a draft.
+96:Before you report done, read the PR back from the forge and confirm it is not a draft (`tea api --repo <owner>/<repo> /repos/{owner}/{repo}/pulls/<number>` must show `draft` as false, where <owner>/<repo> and <number> come from your PR URL); Forgejo marks a draft by a work-in-progress title prefix such as `WIP:`, so if it is a draft, remove that prefix with `tea pulls edit <number> --repo <owner>/<repo> --title '<title without the prefix>'`.
+97:A draft cannot be merged, so a done report on one leaves the merge unasked.
+100:If you deliberately keep the PR a draft, append `paused [at=<epoch>]: {why the draft is held}` instead of done.
+$ fm-brief.sh brief-fj2 fjnm --mode no-mistakes --forge forgejo
+scaffolded: /tmp/fm-lab.JBbGOY/data/brief-fj2/brief.md (ship, mode=no-mistakes forge=forgejo; replace {TASK} and {FIRSTMATE_SPEC})
+[exit 0]
+
+--- rendered no-mistakes brief: forge-relevant lines
+30:3. Use tea for Forgejo operations and chrome-devtools-axi for browser operations.
+94:Delivery contract: mode=no-mistakes forge=forgejo
+129:After /no-mistakes reports CI green (the CI-ready return point - do not wait for it to keep monitoring in the background until merge), read the PR back from the forge and confirm it is not a draft (`tea api --repo <owner>/<repo> /repos/{owner}/{repo}/pulls/<number>` must show `draft` as false, where <owner>/<repo> and <number> come from your PR URL); Forgejo marks a draft by a work-in-progress title prefix such as `WIP:`, so if it is a draft, remove that prefix with `tea pulls edit <number> --repo <owner>/<repo> --title '<title without the prefix>'`.
+130:A draft cannot be merged, so a done report on one leaves the merge unasked.
+133:If you deliberately keep the PR a draft, append `paused [at=<epoch>]: {why the draft is held}` instead of done.

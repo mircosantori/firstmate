@@ -1,0 +1,10 @@
+(cwd: worker checkout whose origin is the Forgejo repo; commands copied from the rendered brief)
+$ tea api --repo fixture/fixture-repo /repos/{owner}/{repo}/pulls/3 | jq {title,draft}
+{"title":"WIP: draft change","draft":true}
+$ tea pulls edit 3 --repo fixture/fixture-repo --title 'draft change'
+
+  # #3 draft change (open)                                                    
+                                                                              
+[exit 0]
+$ tea api --repo fixture/fixture-repo /repos/{owner}/{repo}/pulls/3 | jq {title,draft}
+{"title":"draft change","draft":false}

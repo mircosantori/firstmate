@@ -1,0 +1,26 @@
+Setup: PR 8 squash-merged on Forgejo, its branch deleted on the forge, main moved on (s1.txt changed again) so the content fallback cannot match; worktree HEAD is on no remote branch.
+=== merged Forgejo PR (task-s1)
+$ fm-teardown.sh task-s1 --legacy-record
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+A new version of treehouse is available: v2.3.0 → v3.1.2
+
+worktree /tmp/fm-lab.JBbGOY/wt-task-s1 is not managed by treehouse
+error: treehouse return failed for worktree /tmp/fm-lab.JBbGOY/wt-task-s1; teardown aborted
+[exit 1]
+
+tea calls made by teardown:
+tea login list --output json
+tea api --login fm-fixture --repo fixture/fixture-repo /repos/{owner}/{repo}/pulls/8
+
+=== negative control: open Forgejo PR 7 with a local-only commit (task-c1)
+$ fm-teardown.sh task-c1 --legacy-record
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+REFUSED: worktree /tmp/fm-lab.JBbGOY/wt-task-c1 has work not on any remote and not landed.
+unpushed commits:
+aae63e9 local only
+Push the branch, land its PR, or get the captain's explicit OK to discard, then --force.
+[exit 1]
+
+tea calls made by teardown:
+tea login list --output json
+tea api --login fm-fixture --repo fixture/fixture-repo /repos/{owner}/{repo}/pulls/7
